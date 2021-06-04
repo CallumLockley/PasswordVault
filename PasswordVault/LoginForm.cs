@@ -12,6 +12,7 @@ namespace PasswordVault
 {
     public partial class LoginForm : Form
     {
+        private string userFilePath = @"D:\Documents\Development\PassworkVault\PasswordVault\PasswordVault\Data\userDetails.txt";
         public LoginForm()
         {
             InitializeComponent();
@@ -19,7 +20,28 @@ namespace PasswordVault
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            usernameTBox.Clear();
+            passwordTBox.Clear();
+            errorLabel.Visible = false;
+        }
 
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            string userDetails = System.IO.File.ReadAllText(userFilePath);
+            if (userDetails.Contains(usernameTBox.Text))
+            {
+                if (userDetails.Contains(passwordTBox.Text)){
+                    Console.WriteLine("Foudn user- ", usernameTBox.Text + " " + passwordTBox.Text);
+                }
+                
+            }
+        }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            RegisterForm register = new RegisterForm();
+            register.Show();
         }
     }
 }
