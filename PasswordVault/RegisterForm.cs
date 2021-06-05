@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
+using PasswordVault.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PasswordVault
 {
     public partial class RegisterForm : Form
     {
+        private readonly string userFilePath = @"D:\Documents\Development\PassworkVault\PasswordVault\PasswordVault\Data";
         public RegisterForm()
         {
             InitializeComponent();
@@ -27,8 +26,21 @@ namespace PasswordVault
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
-            if(usernameRegTBox.Text.Length != 0 && passwordRegTBox.Text.Length != 0)
+            string passwordEncrypt = Encryption.ComputeSha256Hash(passwordRegTBox.Text);
+
+            if (usernameRegTBox.Text.Length != 0 && passwordRegTBox.Text.Length != 0)
             {
+
+                User user = new()
+                {
+                    username = usernameRegTBox.Text,
+                    password = passwordEncrypt
+                };
+
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(userFilePath, "userDetails.txt"), true))
+                {
+                    outputFile.WriteLine(user.ToString());
+                }
                 this.Hide();
                 LoginForm login = new();
                 login.Show();
@@ -49,5 +61,9 @@ namespace PasswordVault
         {
             errorLabel.Visible = false;
         }
+
+
+       
+
     }
 }

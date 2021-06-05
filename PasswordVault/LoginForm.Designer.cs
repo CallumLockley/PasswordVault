@@ -65,6 +65,7 @@ namespace PasswordVault
             this.usernameTBox.Name = "usernameTBox";
             this.usernameTBox.Size = new System.Drawing.Size(189, 23);
             this.usernameTBox.TabIndex = 2;
+            this.usernameTBox.TextChanged += new System.EventHandler(this.usernameTBox_TextChanged);
             // 
             // passwordTBox
             // 
@@ -74,6 +75,7 @@ namespace PasswordVault
             this.passwordTBox.PasswordChar = '*';
             this.passwordTBox.Size = new System.Drawing.Size(189, 23);
             this.passwordTBox.TabIndex = 3;
+            this.passwordTBox.TextChanged += new System.EventHandler(this.passwordTBox_TextChanged);
             // 
             // errorLabel
             // 

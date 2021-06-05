@@ -145,9 +145,7 @@ namespace PasswordVault
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.Button RegisterButton;
-        private System.Windows.Forms.Label errorLabel;
-        private System.Windows.Forms.TextBox passwordTBox;
-        private System.Windows.Forms.TextBox usernameRegTBox;
+        private System.Windows.Forms.Label errorLabel;        private System.Windows.Forms.TextBox usernameRegTBox;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.TextBox passwordRegTBox;
         private System.Windows.Forms.Label WelcomeLabel;

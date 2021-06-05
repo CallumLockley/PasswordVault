@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
+using PasswordVault.Models;
 
 namespace PasswordVault
 {
     public partial class LoginForm : Form
     {
-        private string userFilePath = @"D:\Documents\Development\PassworkVault\PasswordVault\PasswordVault\Data\userDetails.txt";
+        private readonly string userFilePath = @"D:\Documents\Development\PassworkVault\PasswordVault\PasswordVault\Data\userDetails.txt";
         public LoginForm()
         {
             InitializeComponent();
@@ -27,14 +25,18 @@ namespace PasswordVault
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            string userDetails = System.IO.File.ReadAllText(userFilePath);
-            if (userDetails.Contains(usernameTBox.Text))
+            string username = usernameTBox.Text;
+            string password = passwordTBox.Text;
+
+            if (SearchFile(userFilePath, username, password))
             {
-                if (userDetails.Contains(passwordTBox.Text)){
-                    Console.WriteLine("Foudn user- ", usernameTBox.Text + " " + passwordTBox.Text);
-                }
-                
+                this.Hide();
             }
+            else
+            {
+                errorLabel.Visible = true;
+            }
+
         }
 
         private void registerButton_Click(object sender, EventArgs e)
@@ -42,6 +44,31 @@ namespace PasswordVault
             this.Hide();
             RegisterForm register = new RegisterForm();
             register.Show();
+        }
+
+
+        private bool SearchFile(string userFile,string username,string password)
+        {
+            string ePassword = Encryption.ComputeSha256Hash(password);
+
+            foreach( string line in File.ReadAllLines(userFile)){
+                if(line.Contains(username) && line.Contains(ePassword))
+                {
+                    return true;
+                }
+            };
+            return false;
+        }
+
+
+
+        private void usernameTBox_TextChanged(object sender, EventArgs e)
+        {
+            errorLabel.Visible = false;
+        }
+        private void passwordTBox_TextChanged(object sender, EventArgs e)
+        {
+            errorLabel.Visible = false;
         }
     }
 }
